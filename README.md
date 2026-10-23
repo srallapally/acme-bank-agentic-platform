@@ -71,6 +71,37 @@ The exact **AgentCore Gateway → private EKS MCP → SPIRE** integration is a P
 
 **Security boundaries:** Ping proves *who the user is*; SPIRE attests *which bank-controlled workload is calling*; Cedar decides *whether a specific action is permitted*. Neither TLS nor an LLM-generated assertion grants banking authorization. Managed AgentCore runtime instances are not assumed to host a SPIRE Agent or possess SPIRE-issued SVIDs.
 
+## Implementation technology stack
+
+**Language decision:** Python for agents, MCP services, backend APIs and test harnesses; TypeScript for the banking demo UI. Avoid parallel Python and TypeScript implementations of the same backend capability.
+
+| Component | Preferred stack | Notes |
+| --- | --- | --- |
+| Ephemeral banking agent | Python 3.12+; Strands Agents SDK | AgentCore-compatible runtime entry point; keep session state short-lived |
+| MCP domain servers | Python; FastMCP; Pydantic | Strict tool schemas and server-side validation |
+| Session controller, token broker, banking simulator | Python; FastAPI; Pydantic | Verify Ping identity and delegated context independently of the agent |
+| Python development | `uv`, `pytest`, `Ruff`, `mypy` | Pin dependencies and run targeted security/contract tests |
+| Banking demo web app | TypeScript; React; Vite; Tailwind CSS; TanStack Query | Generated API client from OpenAPI; no duplicated backend schemas |
+| Frontend tests | Vitest | Component and request-boundary tests |
+| Model inference and agent execution | Amazon Bedrock + AgentCore Runtime | Ephemeral per-task compute, restricted IAM and networking |
+| MCP aggregation and tool policy | AgentCore Gateway + Cedar | Managed policy enforcement at tool boundary |
+| MCP workloads | Amazon EKS; containers; Helm | Domain-scoped services, not a monolithic tool server |
+| External API entry | Amazon API Gateway | HTTPS, authentication and traffic controls |
+| User identity | PingFederate/PingOne OAuth 2.0/OIDC | Short-lived delegated access tokens; no refresh tokens in agents |
+| EKS workload identity / mTLS | Upstream FOSS SPIRE, SPIFFE X.509-SVID, Envoy | Verify both peer identities and trusted root bundles |
+| Backend resource authorization | OSS Cedar PDP | Prefer a small upstream Cedar (Rust) service on EKS; don't require Rust elsewhere |
+| PII/data safeguards | OSS Presidio and field allowlists | Minimize before inference; sanitize outputs and telemetry |
+| AI security | OSS NeMo Guardrails + LLM Guard | Defense in depth, not a replacement for Cedar |
+| Payment intent persistence | Amazon DynamoDB | Conditional writes, idempotency and task correlation |
+| Durable financial workflows | AWS Step Functions when approval/resume is required | Defer elaborate orchestration until needed |
+| Evaluations | AgentCore Evaluations, `pytest`, DeepEval, promptfoo | Deterministic security invariants are release blocking |
+| Telemetry/audit | OpenTelemetry, CloudWatch, controlled audit archive | Redact before export and preserve versioned evidence |
+| IaC/deployment | Terraform, Helm, Docker, GitHub Actions | Repeatable deploys, scanning and verified release gates |
+
+Use **OpenAPI and JSON Schema as language-neutral contracts** and generate the TypeScript client from the Python API specification. The custom Rust Cedar PDP is the only proposed service outside Python/TypeScript; its purpose is to reuse the upstream OSS Cedar authorization engine without reimplementing it.
+
+**Stack selection is an architectural proposal**, not a statement that the listed packages or infrastructure have been deployed. Validate service-version compatibility and region-specific AWS support in the relevant implementation phase.
+
 ## Non-negotiable design principles
 
 - **Agents are untrusted planners, not transaction authorities.** Business writes run through independently enforced APIs and durable state machines.
