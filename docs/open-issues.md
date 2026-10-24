@@ -21,6 +21,7 @@
 | OI-013 | P1 | Open | Evals | Approve golden set, negative suite, release thresholds and deterministic blockers | QA/Risk TBD | Versioned fixtures and CI results, [ADR-007](adrs/007-evaluation-release-gates.md) |
 | OI-014 | P1 | Open | Pentest | Set authorized ROE, isolated targets, penetration testing scope and signoff owners | Security TBD | Signed ROE and report, [ADR-007](adrs/007-evaluation-release-gates.md) |
 | OI-015 | P1 | Open | Operations | Define egress restrictions, cost budgets, rollback, telemetry redaction and disaster recovery basics | SRE TBD | Operational drill/runbook, [MVP plan](mvp-delivery.md) |
+| OI-017 | P1 | Open | Technology / monorepo | Confirm Python/TypeScript library versions, contract generation, Rust Cedar PDP packaging and CI ownership | Engineering TBD | Compatible lockfiles, typecheck/test workflow, [ADR-008](adrs/008-technology-and-monorepo.md) |
 | OI-016 | P2 | Deferred | Expansion | Multi-agent delegation, production payment posting, region federation and enterprise registry rollout | Product TBD | Separate post-MVP ADRs and signoff |
 
 ## Assumptions currently used in the design
