@@ -4,7 +4,7 @@
 
 A security-first reference platform for **ephemeral banking agents** on AWS. Agents orchestrate approved capabilities through MCP; deterministic services retain responsibility for authorization, durable business state, approvals, and financial effects.
 
-[Project roadmap](https://github.com/users/srallapally/projects/5) · [Architecture epic](https://github.com/srallapally/acme-bank-agentic-platform/issues/1) · **[Engineering documentation](docs/README.md)**
+[Project roadmap](https://github.com/users/srallapally/projects/5) · [Architecture epic](https://github.com/srallapally/acme-bank-agentic-platform/issues/1) · **[Engineering documentation](docs/README.md)** · [Phase 0 ADRs](docs/adrs/README.md) · [Open issues](docs/open-issues.md)
 
 ## MVP objective
 
