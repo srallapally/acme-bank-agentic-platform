@@ -11,6 +11,7 @@ ADRs record **proposed** choices until accepted by the named platform/security/b
 | [ADR-005](005-mcp-contracts.md) | MCP domains, tool restrictions and payment preparation | Proposed |
 | [ADR-006](006-data-protection.md) | PII minimization and telemetry handling | Proposed |
 | [ADR-007](007-evaluation-release-gates.md) | Testing, evaluation and release evidence | Proposed |
+| [ADR-008](008-technology-and-monorepo.md) | Python/TypeScript technology and monorepo structure | Proposed |
 
 Tracking: [Open issues and assumptions](../open-issues.md) · [Phase 0 epic](https://github.com/srallapally/acme-bank-agentic-platform/issues/1).
 
