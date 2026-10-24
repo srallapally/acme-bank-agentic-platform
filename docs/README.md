@@ -4,6 +4,8 @@ These documents describe the **proposed MVP**; they are not evidence of deployed
 
 | Document | Purpose |
 | --- | --- |
+| [Phase 0 ADRs](adrs/README.md) | Proposed architecture decisions and verification requirements |
+| [Open issues register](open-issues.md) | Tracked assumptions, blockers, owners and closure evidence |
 | [Architecture](architecture.md) | System design, data/control planes, trust boundaries, MVP scenario |
 | [Technology stack](technology-stack.md) | Languages, libraries, AWS services, standards and trade-offs |
 | [Monorepo design](monorepo.md) | Repository layout, contracts, conventions, CI/CD |
